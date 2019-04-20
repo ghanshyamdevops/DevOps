@@ -1,0 +1,59 @@
+10.160.0.5 puppet-master
+10.160.0.6 puppet-node-01
+------------------------------------
+Puppet installation:-
+--------------------
+Commands to be executed on Puppet master:-
+----------------------------------------
+check ip address using
+--- ip addr
+**configure below setup in both machine(slave and master)
+vi /etc/hosts
+10.142.0.23 pnode01
+10.142.0.22 pmaster
+  
+instal in master:
+----------------
+step01- ping node
+step02- rpm -Uvh https://yum.puppetlabs.com/puppet5/puppet5-release-el-7.noarch.rpm
+step03  yum install -y puppetserver
+step04  cd /etc/puppetlabs/puppet
+step05  ls
+step06  vi puppet.conf 
+  dns_alt_name = puppet-master
+  certname = puppet-master
+  environment = production
+**restart the machine
+step07  systemctl start puppetserver
+step08  puppet cert list(run after step11)
+step09  puppet cert sign puppet-node-01.asia-south1-c.c.polar-elf-234302.internal
+step10  puppet cert list
+step11  sudo /opt/puppetlabs/bin/puppet cert list --all
+================================================================
+Commands to be executed on puppet slaves:-
+---------------------------------------
+step01   vi /etc/hosts
+step02  ping master
+step03  rpm -Uvh https://yum.puppetlabs.com/puppet5/puppet5-release-el-7.noarch.rpm
+step04  yum install -y puppet
+step05  cd /etc/puppetlabs/
+step06 ls
+step07 cd puppet/
+step08 ls
+step09 vi puppet.conf 
+   server = puppet-master
+**restart the machine
+step10 puppet resource service puppet ensure=running enable=true
+step11 puppet agent --test (check for change) - (run first before step08, first time certificate fail)
+======================================================
+***puppet agent run every 30 run  
+***cd /etc/puppetlabs/code/environments/production/manifests
+vi main.pp
+puppet parser validate main.pp(compile the )
+
+node 'node-1' {
+    file {'/info.txt':
+    ensure => 'present',  
+    content => "this is our first puppet file",
+    }
+}
