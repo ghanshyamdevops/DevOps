@@ -1,0 +1,36 @@
+class and array 
+===============
+node 'pnode01'{
+      class{'linux':}
+      class{'linux1':}
+ }
+class linux {
+     $pkg_list = ["git","java"]
+     package{$pkg_list:
+     ensure => 'present',
+     }
+ }
+class linux1 {
+     package{"nano":
+     ensure => 'present',
+     }
+ }
+ ====================
+ package{'httpd':
+ ensure => 'present',
+}
+=============
+***service httpd status(slave node)
+
+service{'httpd':
+ ensure =>'running',
+ enable =>'true',
+}
+
+***service httpd status(slave node)
+
+service{'httpd':
+ ensure =>'stopped',
+ enable =>'true',
+}
+
