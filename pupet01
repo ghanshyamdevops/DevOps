@@ -1,5 +1,72 @@
-class and array 
-===============
+
+***cd /etc/puppetlabs/code/environments/production/manifests
+.pp --> puppet program
+manifests --> manifests are the puppet program that are written in puppet domain specific logic
+with .pp extension.
+vi main.pp
+puppet parser validate main.pp(compile the )
+
+node 'node-1' {
+    file {'/info.txt':
+    ensure => 'present',  
+    content => "this is our first puppet file",
+    }
+
+package{'httpd':
+ensure => 'present',
+}
+
+***service httpd status(slave node)
+
+service{'httpd':
+ ensure =>'running',
+ enable =>'true',
+}
+
+***service httpd status(slave node)
+
+service{'httpd':
+ ensure =>'stopped',
+ enable =>'true',
+}
+
+------------------------------------------------
+class 
+node 'node-1'{
+      class{'linux':}
+
+node 'node-2'{
+      class{'linux':}
+
+
+class linux {
+    file {'/info.txt':
+    ensure => 'present',  
+    content => "this is our first puppet file",
+    }
+
+package{'httpd':
+ensure => 'present',
+}
+
+***service httpd status(slave node)
+
+service{'httpd':
+ ensure =>'running',
+ enable =>'true',
+}
+
+***service httpd status(slave node)
+
+service{'httpd':
+ ensure =>'stopped',
+ enable =>'true',
+}
+
+}
+=========================
+array:
+******
 node 'pnode01'{
       class{'linux':}
       class{'linux1':}
@@ -15,22 +82,21 @@ class linux1 {
      ensure => 'present',
      }
  }
- ====================
- package{'httpd':
- ensure => 'present',
-}
-=============
-***service httpd status(slave node)
+check package
+*** whereis git
+    whereis -qa java
+    whereis nano
 
-service{'httpd':
- ensure =>'running',
- enable =>'true',
+package{'php':
+ensure => '5.2',
 }
 
-***service httpd status(slave node)
+-------------------------------------------------
 
-service{'httpd':
- ensure =>'stopped',
- enable =>'true',
-}
-
+***********
+change the pulling time interval from 30min to 1m
+change in slave config file
+---------------------------
+cd /etc/puppetlabs/puppet/
+vi puppet.conf
+runinterval=1m(min, d- day, y- year)
