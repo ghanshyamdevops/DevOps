@@ -1,0 +1,81 @@
+five components:
+---------------
+modules:-
+=======
+php browser
+apache webserver
+source code- git
+mysql database
+firewall settings
+
+mediawiki   - git
+
+-- create own module
+-- download built in module
+-- use builtin module in our own custom module
+
+puppet module generate (username-modulename)shyam-mediawiki --environment production( after hit enter its ask
+some question that is optional)
+---systemctl start puppetserver  (start the puppet master server)
+---cd /etc/puppetlabs/code/environments/production/	(master)
+---cd /etc/puppetlabs/code/environments/production/modules    ----(master module)
+---puppet parser validate  (validate the puppet prgm)
+==============================================
+---cd /etc/puppetlabs/puppet
+---puppet agent --test (check for change)
+---puppet module generate shyam-mediawiki --environment production
+
+-ll
+--cd manifests
+--ll
+-- cd /etc/puppetlabs/code/environments/production/
+--cd manifests
+
+node 'pnode01'{
+     class{'mediawiki':}
+  }
+
+-- rpm -qa *php*
+-- https://forge.puppet.com
+---cd /etc/puppetlabs/code/environments/production/modules
+--- puppet module install puppetlabs-apache
+--- puppet module install puppetlabs-vcsrepo
+--- puppet module install puppetlabs-mysql
+--- puppet module install puppetlabs-firewall
+---*go to mediawiki
+---cd mediawiki
+--- vi init.pp
+---
+====================================================
+class mediawiki {
+package {'php-mysql':
+      ensure =>'present',
+      }
+      package {'php-xml':
+      ensure => 'present',
+     }
+     class{'::apache':
+     docroot => '/var/www/html',
+     mpm_module => 'prefork',
+     subscribe => Package['php-mysql'],
+     }
+     class{'::apache::mod::php':}
+     vcsrepo { '/var/www/html':
+     ensure   => present,
+     provider => git,
+     source => "https://github.com/wikimedia/mediawiki.git",
+     revision => 'REL1_23',
+     }
+     class{ '::mysql::server':
+     root_password => 'training',
+     }
+     class{'::firewall':}
+     firewall{'000 allow http access':
+     port => '80',
+     proto => 'tcp',
+     action => 'accept',
+      }
+}
+
+ ==================================
+run with node machine ip address
