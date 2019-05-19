@@ -1,0 +1,12 @@
+step01- sudo -i
+step02- Install rpm on controller machine
+      ** rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm (check rpm installed )
+step03- yum install -y ansible
+step04-ansible --version (check the version)
+step05-useradd hclt
+step06-passwd hclt (write new password)
+step07-su - hclt(login to the hclt user)
+vi /etc/ssh/sshd_config 
+step08-ssh-keygen
+step09 ssh-copy-id hclt@10.142.0.31(internal ip address) 
+step10-ssh hclt@10.142.0.31(internal ip address)
