@@ -1,0 +1,78 @@
+cd /etc
+
+cd ssh
+
+vi sshd_config
+**passwordauthentication yes
+ 
+
+systemctl restart sshd
+
+getenforce --->(enforcing)
+vi /etc/selinux/config
+   (SELINUX-PERMISSIVE)
+setenforce (permessive)
+
+*** install dependencies***
+		
+yum install -y httpd httpd-tools php php-cli gcc glibc glibc-common gd gd-devel make net-snmp openssl-dev wget unzip
+
+
+useradd nagios
+
+groupadd nagcmd
+
+usermod -a -G nagcmd nagios
+
+usermod -a -G nagcmd apache
+
+**mkdir /root/nagioscd /root/nagios( use /tmp ) 
+wget https://assets.nagios.com/downloads/nagioscore/releases/nagios-4.3.4.tar.gz
+
+wget https://nagios-plugins.org/download/nagios-plugins-2.2.1.tar.gz
+
+tar -xvf nagios-4.3.4.tar.gz
+
+tar -xvf nagios-plugins-2.2.1.tar.gz
+
+ls -l
+
+cd nagios-4.3.4/
+
+./configure --with-command-group=nagcmd
+
+make all
+
+make install
+
+make install-init
+
+make install-commandmode
+
+make install-config
+
+make install-webconf
+
+cp -R contrib/eventhandlers/ /usr/local/nagios/libexec
+
+chown -R nagios:nagios  /usr/local/nagios/libexec/eventhandlers
+
+/usr/local/nagios/bin/nagios -v /usr/local/nagios/etc/nagios.cfg
+
+htpasswd -s -c /usr/local/nagios/etc/htpasswd.users nagiosadmin
+
+cd /tmp/nagios-plugins-2.2.1
+
+
+./configure --with-nagios-user=nagios --with-nagios-group=nagios
+
+make
+make all (safe check)
+systemctl enable nagios
+systemctl enable httpd
+service nagios start
+systemctl status nagios
+
+service nagios status
+systemctl start httpd
+34.74.122.163/nagios(external ip address)
