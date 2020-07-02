@@ -1,0 +1,14 @@
+https://github.com/JerryKurata/MachineLearningWithPython
+
+Please find below the link to the folder containing all the Python codes, R codes, and datasets of this course:
+
+https://drive.google.com/drive/folders/1OFNnrHRZPZ3unWdErjLHod8Ibv2FfG1d?usp=sharing
+
+http://www.superdatascience.com/
+
+https://goo.gl/EEuEGp - - > tensorflow
+
+https://github.com/tensorflow/playground
+https://github.com/GoogleCloudPlatform/training-data-analyst.git
+
+https://github.com/GoogleCloudPlatform/training-data-analyst/blob/master/courses/machine_learning/deepdive/03_tensorflow/debug_demo.ipynb
